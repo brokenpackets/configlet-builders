@@ -31,7 +31,7 @@ configlet = 'Compute_VLANs'
 restcall = 'https://'+cvpserver+':443//cvpservice/configlet/getConfigletByName.do?name='+configlet
 vlanList = []
 vlanNumRegex = re.compile('^([0-9]{1,4})\,.*')
-vlanNameRegex =  re.compile('^[0-9]{1,4}\,(.*)')
+vlanNameRegex =  re.compile('^[0-9]{1,4}\,(.*?)\,')
 vlanIPAddrRegex = re.compile('^.*?\,([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\/[0-9]{1,2})')
 
 def main():
