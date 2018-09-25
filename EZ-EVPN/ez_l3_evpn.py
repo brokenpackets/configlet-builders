@@ -64,7 +64,7 @@ def main():
     #Create VLAN Interface
     print 'interface Vlan %s' % (vlanId)
     print ' description %s' % (vlanName)
-    print ' ip address %s' % (ipAddr)
+    print ' ip address virtual %s' % (ipAddr)
     print '!'
   #Assign VLAN to VNI
   print 'interface vxlan1'
