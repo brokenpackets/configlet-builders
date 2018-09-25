@@ -51,7 +51,8 @@ def main():
   ASN =  response[0]['vrfs']['default']['asn'] # grab ASN from BGP JSON data.
   ROUTERID = response[ 0 ]['vrfs']['default']['routerId'] # grab Router-ID from BGP JSON data.
 
-  # !DynConfig is to Rename Configlet Automatically if needed - see: {{Add link}}
+  # !DynConfig is to Rename Configlet Automatically if needed;
+  #        see: https://github.com/brokenpackets/configlet_AutoRename/ for details.
   print '!DynConfig '+hostname+'_AutoVLAN'
   allVlans = []
   #Create VLAN
