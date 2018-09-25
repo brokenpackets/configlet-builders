@@ -1,6 +1,4 @@
 import jsonrpclib
-import itertools
-import netaddr
 from cvplibrary import Form
 from cvplibrary import CVPGlobalVariables, GlobalVariableNames
 from cvplibrary import RestClient
@@ -39,10 +37,8 @@ def main():
     # Parses configlet data into JSON.
     configletData = json.loads(client.getResponse())['config']
     # Splits configlet into list, divided at \n
-    allVlans = configletData.split('\n')
-    # Adds all lines to a list called allVlans
-    vlanList.extend(allVlans)
-
+    vlanList = configletData.split('\n')
+   
   #SESSION SETUP FOR eAPI TO DEVICE
   url = "https://%s:%s@%s/command-api" % (user, passwd, ip)
   ss = jsonrpclib.Server(url)
