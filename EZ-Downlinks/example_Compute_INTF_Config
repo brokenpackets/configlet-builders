@@ -1,0 +1,7 @@
+description Host-Uplink
+switchport
+switchport mode trunk
+switchport trunk native vlan 200
+switchport trunk allowed vlan 200,300,400
+spanning-tree portfast
+spanning-tree bpduguard enable
