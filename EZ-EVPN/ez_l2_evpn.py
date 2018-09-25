@@ -5,7 +5,7 @@ from cvplibrary import RestClient
 import json
 import re
 import ssl
-# Ignore self-signed certs
+# Ignore untrusted certificate for eAPI call.
 ssl._create_default_https_context = ssl._create_unverified_context
 
 #GET VARIABLES FROM CVP, USED TO AUTH TO DEVICE.
