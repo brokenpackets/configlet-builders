@@ -32,7 +32,7 @@ Instructions:
       eg:
           interface Ethernet1
             !! Dyn_intf = Compute_INTF_Config
-   - Apply configlet to container - if any new VLANs are added, remove configlet and re-add.
+   - Apply configlet to container - if any interface changes need to be made, remove/re-add the builder.
 """
 
 ### User variables
