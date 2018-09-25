@@ -1,0 +1,16 @@
+interface Ethernet1
+   !! Dyn_intf = Compute_INTF_Config
+interface Ethernet2
+   !! Dyn_intf = Compute_INTF_Config
+interface Ethernet3
+   !! Dyn_intf = Compute_INTF_Config
+interface Ethernet4
+   !! Dyn_intf = Compute_INTF_Config
+interface Ethernet5
+   !! Dyn_intf = Compute_INTF_Config
+interface Ethernet6
+   !! Dyn_intf = Compute_INTF_Config
+interface Ethernet7
+   !! Dyn_intf = Compute_INTF_Config
+interface Ethernet8
+   !! Dyn_intf = Compute_INTF_Config
