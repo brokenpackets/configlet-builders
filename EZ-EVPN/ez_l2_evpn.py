@@ -12,22 +12,35 @@ ip = CVPGlobalVariables.getValue(GlobalVariableNames.CVP_IP)
 user = CVPGlobalVariables.getValue(GlobalVariableNames.CVP_USERNAME)
 passwd = CVPGlobalVariables.getValue(GlobalVariableNames.CVP_PASSWORD)
 
+"""
+Instructions:
+   - Create static configlet with VLANID and Description per line, separated by a comma:
+      eg: 5,DynVLAN5
+          10,DynVLAN10
+   - Rename user variable 'configlet' to match configlet name.
+   - Rename user variable 'cvpserver' to match CVP server fqdn.
+   - Apply configlet to container - if any new VLANs are added, remove configlet and re-add.
+"""
+
+### User variables
 cvpserver = 'localhost'
 configlet = 'Compute_VLANs'
+
+### Rest of script
 restcall = 'https://'+cvpserver+':443//cvpservice/configlet/getConfigletByName.do?name='+configlet
-#GET VARIABLES FROM THE FORM
 vlanList = []
 vlanNumRegex = re.compile('^([0-9]{1,4})\,.*')
 vlanNameRegex =  re.compile('^[0-9]{1,4}\,(.*)')
 
 def main():
-  
-  #CHECKS THAT ALL FIELDS HAVE DATA
-  #runs API call to grab VLANs
+  # Runs API call to grab configlet
   client = RestClient(restcall,'GET')
   if client.connect():
+    # Parses configlet data into JSON.
     configletData = json.loads(client.getResponse())['config']
+    # Splits configlet into list, divided at \n
     allVlans = configletData.split('\n')
+    # Adds all lines to a list called allVlans
     vlanList.extend(allVlans)
 
   #SESSION SETUP FOR eAPI TO DEVICE
@@ -35,11 +48,10 @@ def main():
   ss = jsonrpclib.Server(url)
   #CONNECT TO DEVICE
   response = ss.runCmds( 1, [ 'show ip bgp' ] ) # run command 'show ip bgp' and store output as response.
-  hostname = ss.runCmds( 1, [ 'show hostname' ])[0]['hostname']
   ASN =  response[0]['vrfs']['default']['asn'] # grab ASN from BGP JSON data.
   ROUTERID = response[ 0 ]['vrfs']['default']['routerId'] # grab Router-ID from BGP JSON data.
 
-  #Rename Configlet Automatically
+  # !DynConfig is to Rename Configlet Automatically if needed - see: {{Add link}}
   print '!DynConfig '+hostname+'_AutoVLAN'
   allVlans = []
   #Create VLAN
