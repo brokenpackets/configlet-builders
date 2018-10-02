@@ -5,7 +5,7 @@ from cvplibrary import RestClient
 import json
 import re
 import ssl
-# Ignore untrusted certificate for eAPI call.
+
 ssl._create_default_https_context = ssl._create_unverified_context
 
 #GET VARIABLES FROM CVP, USED TO AUTH TO DEVICE.
@@ -49,7 +49,10 @@ def main():
   response = ss.runCmds( 1, [ 'show ip bgp' ] ) # run command 'show ip bgp' and store output as response.
   ASN =  response[0]['vrfs']['default']['asn'] # grab ASN from BGP JSON data.
   ROUTERID = response[ 0 ]['vrfs']['default']['routerId'] # grab Router-ID from BGP JSON data.
-
+  hostname = 'hostname'
+  # !DynConfig is to Rename Configlet Automatically if needed;
+  #        see: https://github.com/brokenpackets/configlet_AutoRename/ for details.
+  print '!DynConfig '+hostname+'_AutoVLAN'
   allVlans = []
   #Create VLAN
   for vlan in vlanList:
@@ -65,19 +68,9 @@ def main():
     print ' shutdown'
     print '!'
   #Assign VLAN to VNI
-  print 'interface vxlan1'
+  print 'interface Port-Channel4'
   for vlan in allVlans:
-    print '  vxlan vlan '+vlan+' vni '+vlan
-  print '!'
-  #Create MACVRF for EVPN.
-  print 'router bgp %s' % (ASN)
-  for vlan in allVlans:
-    print '  vlan %s' % (vlan)
-    print '    rd '+ROUTERID+':'+vlan
-    print '    route-target import '+vlan+':'+vlan
-    print '    route-target export '+vlan+':'+vlan
-    print '    redistribute learned'
-    print '    !'
+    print '  switchport trunk allowed vlan add '+vlan
   print '!'
 
 if __name__ == "__main__":
