@@ -24,10 +24,10 @@ Instructions:
 """
 
 ### User variables
-cvpserver = 'localhost'
 configlet = 'Compute_VLANs'
 
 ### Rest of script
+cvpserver = 'localhost'
 restcall = 'https://'+cvpserver+':443//cvpservice/configlet/getConfigletByName.do?name='+configlet
 vlanList = []
 vlanNumRegex = re.compile('^([0-9]{1,4})\,.*')
