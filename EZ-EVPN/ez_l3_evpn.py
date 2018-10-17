@@ -19,15 +19,14 @@ Instructions:
       eg: 5,DynVLAN5,192.168.5.1/24
           10,DynVLAN10,192.168.10.1/24
    - Rename user variable 'configlet' to match configlet name.
-   - Rename user variable 'cvpserver' to match CVP server fqdn.
    - Apply configlet to container - if any new VLANs are added, remove configlet and re-add.
 """
 
 ### User variables
-cvpserver = 'localhost'
 configlet = 'Compute_VLANs'
 
 ### Rest of script
+cvpserver = 'localhost'
 restcall = 'https://'+cvpserver+':443//cvpservice/configlet/getConfigletByName.do?name='+configlet
 vlanList = []
 vlanNumRegex = re.compile('^([0-9]{1,4})\,.*')
