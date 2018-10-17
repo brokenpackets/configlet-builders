@@ -26,7 +26,6 @@ Instructions:
           spanning-tree bpduguard enable
 
    - Rename user variable 'configlet' to match configlet name.
-   - Rename user variable 'cvpserver' to match CVP server fqdn.
    - Create configlet to assign host-facing interfaces the comment "Dyn_intf = Compute_INTF_Config"
        and apply to all devices that those interfaces should apply to.
       eg:
@@ -36,10 +35,10 @@ Instructions:
 """
 
 ### User variables
-cvpserver = 'localhost'
 configlet = 'Compute_INTF_Config'
 
 ### Rest of script
+cvpserver = 'localhost'
 restcall = 'https://'+cvpserver+':443//cvpservice/configlet/getConfigletByName.do?name='+configlet
 vlanList = []
 intf_regex = re.compile('interface .*')
