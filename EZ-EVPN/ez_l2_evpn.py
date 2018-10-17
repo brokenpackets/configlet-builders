@@ -19,7 +19,6 @@ Instructions:
       eg: 5,DynVLAN5
           10,DynVLAN10
    - Rename user variable 'configlet' to match configlet name.
-   - Rename user variable 'cvpserver' to match CVP server fqdn.
    - Apply configlet to container - if any new VLANs are added, remove configlet and re-add.
 """
 
