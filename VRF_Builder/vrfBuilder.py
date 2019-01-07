@@ -1,7 +1,9 @@
 import jsonrpclib
+from cvplibrary import Form
 from cvplibrary import CVPGlobalVariables, GlobalVariableNames
 from cvplibrary import RestClient
 import json
+import re
 import ssl
 # Ignore untrusted certificate for eAPI call.
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -58,15 +60,15 @@ def main():
     print '!'
   print 'interface vxlan1'
   for vrfname in allVrfs:
-    print '   vxlan vrf '+vrfname+' vni '+str(int(allVrfs[vrfname])+20000)
+    print '   vxlan vrf '+vrfname+' vni '+allVrfs[vrfname]
   print '!'
-  #Create VRF for EVPN.
+  #Create MACVRF for EVPN.
   print 'router bgp %s' % (ASN)
   for vrf in allVrfs:
     print '  vrf %s' % (allVrfs[vrf])
     print '    rd '+ROUTERID+':'+allVrfs[vrf]
-    print '    route-target import '+str(int(allVrfs[vrf])+20000)+':'+str(int(allVrfs[vrf])+20000)
-    print '    route-target export '+str(int(allVrfs[vrf])+20000)+':'+str(int(allVrfs[vrf])+20000)
+    print '    route-target import '+allVrfs[vrf]+':'+allVrfs[vrf]
+    print '    route-target export '+allVrfs[vrf]+':'+allVrfs[vrf]
     print '    !'
 
 if __name__ == "__main__":
