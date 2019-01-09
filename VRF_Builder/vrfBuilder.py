@@ -51,8 +51,8 @@ def main():
   allVrfs = {}
   for vrf in vrfList:
     vrfInfo = vrf.split(',')
-    vrfVNI = vrfInfo[0]
-    vrfId = vrfInfo[1]
+    vrfId = vrfInfo[0]
+    vrfVNI = vrfInfo[1]
     allVrfs.update({vrfId:vrfVNI})
     print 'vrf definition %s' % (vrfId)
     print '!'
@@ -64,8 +64,8 @@ def main():
   print '!'
   #Create MACVRF for EVPN.
   print 'router bgp %s' % (ASN)
-  for vrf in allVrfs:
-    print '  vrf %s' % (allVrfs[vrf])
+  for vrf in allVrfs.keys():
+    print '  vrf %s' % (vrf)
     print '    rd '+ROUTERID+':'+allVrfs[vrf]
     print '    route-target import '+allVrfs[vrf]+':'+allVrfs[vrf]
     print '    route-target export '+allVrfs[vrf]+':'+allVrfs[vrf]
