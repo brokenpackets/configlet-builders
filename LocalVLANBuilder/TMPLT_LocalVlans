@@ -1,0 +1,4 @@
+DC1-Compute1,110,iSCSI1,unrouted
+DC1-Compute2,110,iSCSI1,unrouted
+DC1-Compute1,100,Compute-Hosts,192.0.2.2/24,prod-hosts
+DC1-Compute2,100,Compute-Hosts,192.0.2.3/24,prod-hosts
