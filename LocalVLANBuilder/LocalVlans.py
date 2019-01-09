@@ -15,14 +15,18 @@ passwd = CVPGlobalVariables.getValue(GlobalVariableNames.CVP_PASSWORD)
 
 """
 Instructions:
-   - Create static configlet with switch hostname, vlan id, vlan name,
-     switch-specific ip address, and vrf.
-   - For unrouted VLAN, enter switch hostname, vlan id, vlan name, and 'unrouted' 
-      eg: DC1-Compute1,100,Compute1,10.10.10.1/24,production
-          DC1-Compute1,200,iSCSI1,unrouted
+   - Create static Configlet in CVP with information below:
+     - For routed vlan,  switch hostname, vlan id, vlan name,
+       switch-specific ip address, and vrf.
+     - For unrouted VLAN, enter switch hostname, vlan id, vlan name, and 'unrouted' 
+       eg: DC1-Compute1,100,Compute-Hosts,192.0.2.2/24,prod-hosts
+           DC1-Compute1,110,iSCSI1,unrouted
    - Rename user variable 'configlet' to match configlet name.
    - Apply configlet to container - if any new VLANs are added, remove configlet
      and re-add.
+   
+   For vARP address, script determines gateway IP by calculating subnet address, and adding int(+1).
+    eg: 192.0.2.2/24 will resolve subnet as 192.0.2.0/24, and have a gateway of 192.0.2.1
 """
 
 ### User variables
