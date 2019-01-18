@@ -49,6 +49,7 @@ def get_configlet(configlet):
 vlanList = []
 intf_regex = re.compile('interface Ethernet.*')
 intf_comment_regex = re.compile('Dyn_intf = (.*)')
+allConfiglets = {}
 
 def main():
   #SESSION SETUP FOR eAPI TO DEVICE
@@ -63,11 +64,15 @@ def main():
       # match comment against intf_comment_regex
       if intf_comment_regex.match(comment):
         configlet_name = intf_comment_regex.match(comment).group(1)
-        configlet = get_configlet(configlet_name)
+        if configlet_name in allConfiglets.keys():
+          configlet = allConfiglets[configlet_name]
+        else:
+          configlet = get_configlet(configlet_name)
         print item
         for configItem in configlet:
           print '   '+configItem
         print '!'
-
+        allConfiglets.update({configlet_name:configlet})
+  
 if __name__ == "__main__":
     main()
