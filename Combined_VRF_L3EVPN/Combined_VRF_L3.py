@@ -15,16 +15,16 @@ passwd = CVPGlobalVariables.getValue(GlobalVariableNames.CVP_PASSWORD)
 
 """
 Instructions:
-   - Create static configlet with VNI, VRFName per line, separated by a comma:
-      eg: 21100,Development
-          21200,Staging
+   - Create static configlet with VRFName, VNI per line, separated by a comma:
+      eg: Development,21100
+          Staging,21200
    - Rename user variable 'vrf_configlet' to match vrf configlet name.
    - Apply configlet to container - if any new VRFs are added, 
      remove configlet and re-add.
    - Create static configlet with VLANID, Description, anycast gateway IP,
      and vrf name (optional) per line, separated by a comma:
-      eg: 5,DynVLAN5,192.168.5.1/24,production
-          10,DynVLAN10,192.168.10.1/24,development
+      eg: 5,DynVLAN5,192.168.5.1/24,Staging
+          10,DynVLAN10,192.168.10.1/24,Development
           20,DynVLAN20,192.168.20.1/24
    - Rename user variable 'l3evpn_configlet' to match configlet name.
    - Apply configlet to container - if any new VLANs are added, remove configlet and re-add.
