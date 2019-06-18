@@ -46,12 +46,14 @@ def main():
     configletData = json.loads(client.getResponse())['config']
     # Splits configlet into list, divided at \n
     vrfList = configletData.split('\n')
+    vrfList.pop(0)
   client = RestClient(restcall+l3evpn_configlet,'GET')
   if client.connect():
     # Parses configlet data into JSON.
     configletData = json.loads(client.getResponse())['config']
     # Splits configlet into list, divided at \n
     vlanList = configletData.split('\n')
+    vlanList.pop(0)
   #SESSION SETUP FOR eAPI TO DEVICE
   url = "https://%s:%s@%s/command-api" % (user, passwd, ip)
   ss = jsonrpclib.Server(url)
