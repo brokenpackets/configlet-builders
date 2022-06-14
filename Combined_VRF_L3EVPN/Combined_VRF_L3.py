@@ -1,6 +1,5 @@
 import jsonrpclib
-from cvplibrary import CVPGlobalVariables, GlobalVariableNames
-from cvplibrary import RestClient
+from cvplibrary import CVPGlobalVariables, GlobalVariableNames, RestClient, Device
 import json
 import re
 import ssl
@@ -15,16 +14,16 @@ passwd = CVPGlobalVariables.getValue(GlobalVariableNames.CVP_PASSWORD)
 
 """
 Instructions:
-   - Create static configlet with VRFName, VNI per line, separated by a comma:
-      eg: Development,21100
-          Staging,21200
+   - Create static configlet with VNI, VRFName per line, separated by a comma:
+      eg: 21100,Development
+          21200,Staging
    - Rename user variable 'vrf_configlet' to match vrf configlet name.
    - Apply configlet to container - if any new VRFs are added, 
      remove configlet and re-add.
    - Create static configlet with VLANID, Description, anycast gateway IP,
      and vrf name (optional) per line, separated by a comma:
-      eg: 5,DynVLAN5,192.168.5.1/24,Staging
-          10,DynVLAN10,192.168.10.1/24,Development
+      eg: 5,DynVLAN5,192.168.5.1/24,production
+          10,DynVLAN10,192.168.10.1/24,development
           20,DynVLAN20,192.168.20.1/24
    - Rename user variable 'l3evpn_configlet' to match configlet name.
    - Apply configlet to container - if any new VLANs are added, remove configlet and re-add.
@@ -36,7 +35,7 @@ l3evpn_configlet = 'TMPLT_Compute_VLANs'
 
 ### Rest of script
 cvpserver = 'localhost'
-restcall = 'https://'+cvpserver+':443//cvpservice/configlet/getConfigletByName.do?name='
+restcall = 'https://'+cvpserver+':443/cvpservice/configlet/getConfigletByName.do?name='
 
 def main():
   # Runs API call to grab configlet
@@ -46,19 +45,24 @@ def main():
     configletData = json.loads(client.getResponse())['config']
     # Splits configlet into list, divided at \n
     vrfList = configletData.split('\n')
+    vrfList.pop(0)
   client = RestClient(restcall+l3evpn_configlet,'GET')
   if client.connect():
     # Parses configlet data into JSON.
     configletData = json.loads(client.getResponse())['config']
     # Splits configlet into list, divided at \n
     vlanList = configletData.split('\n')
-  #SESSION SETUP FOR eAPI TO DEVICE
-  url = "https://%s:%s@%s/command-api" % (user, passwd, ip)
-  ss = jsonrpclib.Server(url)
+    vlanList.pop(0)
+  #SESSION SETUP FOR eAPI TO DEVICE 
+  # Deprecating jsonrpc, moving to Device() library.
+  ##url = "https://%s:%s@%s/command-api" % (user, passwd, ip)
+  ##ss = jsonrpclib.Server(url)
+  device = Device(ip)
+  
   #CONNECT TO DEVICE
-  response = ss.runCmds(1,['show ip bgp']) # run command 'show ip bgp' and store output as response
-  ASN =  response[0]['vrfs']['default']['asn'] # grab ASN from BGP JSON data.
-  ROUTERID = response[0]['vrfs']['default']['routerId'] # grab Router-ID from BGP JSON data.
+  response = device.runCmds(['show ip bgp']) # run command 'show ip bgp' and store output as response
+  ASN =  response[0]['response']['vrfs']['default']['asn'] # grab ASN from BGP JSON data.
+  ROUTERID = response[0]['response']['vrfs']['default']['routerId'] # grab Router-ID from BGP JSON data.
 
   ####### VRF Config
   #Create VRF
@@ -125,6 +129,6 @@ def main():
     print '    redistribute learned'
     print '    !'
   print '!'
-
+  
 if __name__ == "__main__":
     main()
