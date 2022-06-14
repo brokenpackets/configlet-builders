@@ -104,12 +104,13 @@ def main():
     print '!'
     vrfName = ''
   #Assign VLAN to VNI
-  print 'interface vxlan1'
-  for vrfname in allVrfs:
-    print '   vxlan vrf '+vrfname+' vni '+allVrfs[vrfname]
-  for vlan in allVlans:
-    print '   vxlan vlan '+vlan+' vni '+str(int(vlan)+10000)
-  print '!'
+  ## Removing this section for MPLS-EVPN.
+  #print 'interface vxlan1'
+  #for vrfname in allVrfs:
+  #  print '   vxlan vrf '+vrfname+' vni '+allVrfs[vrfname]
+  #for vlan in allVlans:
+  #  print '   vxlan vlan '+vlan+' vni '+str(int(vlan)+10000)
+  #print '!'
 
   #Create VRF for EVPN.
   print 'router bgp %s' % (ASN)
