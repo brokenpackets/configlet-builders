@@ -28,7 +28,7 @@ def main():
   skipInterfaces = []
   profileList = [x for x in runningconfig.keys() if profile_regex.match(x)]
   for profile in profileList:
-     interfaceProfiles.append({profile.strip('interface profile '):runningconfig[profile]['cmds'].keys()})
+     interfaceProfiles.append({profile.replace('interface profile ',''):runningconfig[profile]['cmds'].keys()})
   keylist = [x for x in runningconfig.keys() if intf_regex.match(x)]
   for item in keylist:
     # Loop over item comments
